@@ -19,7 +19,6 @@ var data_source = {
     latLon: function(d){ 
         return [parseFloat(d["Lat"]), parseFloat(d['Long'])]
     }
-    
 }
 var debug = true;
 
@@ -125,17 +124,15 @@ var data_circle_options = {
 	fill_color: function(d) {
 		return this.color_scale(d[this.color_field]);
 	},
-	//for color set by data, put a field name in here:
 	color_field: "rating",
-	//this is the type of d3 scale that will be used -- see quantitative, ordinal, or time scales here: https://github.com/d3/d3-3.x-api-reference/blob/master/Scales.md
+
 	scale_function: d3.scale.linear(),
-	//this is a function that maps the scale onto colors. we keep this separate so we can change it based on dynamic updates, if we want
 	color_scale: function(d) {
 		data_circle_options.scale_function.domain([
 					d3.min(data_source.data.map(function(d) { return +d[data_circle_options.color_field]; })), //minimum for field
 					d3.max(data_source.data.map(function(d) { return +d[data_circle_options.color_field]; })) //maximum for field
 				])
-				.range(["orange", "green"]); //you could change these colors or add more
+				.range(["orange", "green"]); 
 		return this.scale_function(d);
 	},
 	color_legend: function() {
@@ -147,7 +144,7 @@ var data_circle_options = {
 			  .scale(this.scale_function)
 		);
 	},
-	//this is text for the caption when data is highlighted or selected
+
 	caption: function(d) {
 		return "<b><big>"+d["origin"] + "</big></b><br>"
 			+ "Director: "+d["person"]+"<br>"
@@ -226,20 +223,16 @@ var data_finder = {
 		}
 	},
 }
-/* END DATA-SPECIFIC OPTIONS */
-//d3 global objects -- don't touch, don't edit, don't add to
+
 var svg, stage, captions, projection, path, circles, tooltip, landforms, centered;
 var map, overlay,bounds,padding,sw,ne;
-//begin main functions:
-//startup (runs after all elements/scripts/etc. on the page have loaded)
+
 function init() {
-	//set up Google Maps object
 	map = new google.maps.Map(d3.select("#map").node(), gmap_options);
 	tooltip = d3.select("#texts")
 				.append("div")
 				.attr("id","tooltip")
 				.text("");
-	//make the radii selector from options
 	if(typeof data_circle_options.selector_options != "undefined") {
 		var sel = document.getElementById(data_circle_options.selectorId);
 		for(i in data_circle_options.selector_options) {
@@ -251,7 +244,7 @@ function init() {
 		}
 		sel.onchange = function() { changeradius(document.getElementById(data_circle_options.selectorId).value) };
 	}
-	//make the text filter selector from options
+
 	if(typeof text_filter_options != "undefined") {
 		if(text_filter_options.selectorId) {
 			if(typeof document.getElementById(text_filter_options.selectorId) != "undefined") {
@@ -271,8 +264,7 @@ function init() {
 			if(debug) console.log("Text filter options exist, but no selector id is indicated!");
 		}
 	}
-	//load from the CSV file into the array object
-	//you probably don't need to or want to change anything here
+
 	if(debug) console.log("Trying to load data from "+data_source.csv);
 	d3.csv(data_source.csv, function(datarows) {
 		if(datarows == null) alert("Could not load the file "+data_source.csv+" - check that the file path and permissions are valid");
@@ -291,47 +283,46 @@ function init() {
 		showdata(data_source.data); //all data is now loaded, so show it
 	});
 }
-//all of the data is loaded, so let's draw some things...
+
 function showdata(data) {
-	//this figures out where the data fits within the map, and creates a google lat_lng object for every data point
+
 	bounds = new google.maps.LatLngBounds();
 	d3.entries(data).forEach(function(d){
 		bounds.extend(d.value.lat_lng = new google.maps.LatLng(data_source.latLon(d.value)[0], data_source.latLon(d.value)[1]));
 	});
-	//map.fitBounds(bounds); //if you want it to automatically zoom the map to the data, uncomment this line
-	//this creates an object in Google Maps that can translate Google Lat/Lon positions to pixel positions
+
 	overlay = new google.maps.OverlayView();
 	overlay.setMap(map);
-	//this runs when the overlay is first ready to use
+
 	overlay.onAdd = function() {
 		svg = d3.select(this.getPanes().overlayMouseTarget)
 			.append("svg")
 			.attr('id','svg');
 	}
 	d3.select("#legendsvg").append("svg").append("svg:g").attr("id","legend");
-	//this function is called every time the overlay gets asked to "redraw," which is basically whenever it zooms (and right after it adds the overlay)
+
 	overlay.draw = function() {
 		if(debug) console.log("Redrawing overlay");
 			projection = this.getProjection(),
 			  sw = projection.fromLatLngToDivPixel(bounds.getSouthWest()),
 			  ne = projection.fromLatLngToDivPixel(bounds.getNorthEast());
-			// extend the boundaries so that markers on the edge aren't cut in half
+
 			padding = 50;
 			sw.x -= padding;
 			sw.y += padding;
 			ne.x += padding;
 			ne.y -= padding;
-		//positions the SVG within the overlay
+
 		d3.select("#svg")
 			.attr('width',(ne.x - sw.x) + 'px')
 			.attr('height',(sw.y - ne.y) + 'px')
 			.style('position','absolute')
 			.style('left',sw.x+'px')
 			.style('top',ne.y+'px');
-		//create a circles class
+
 		if(typeof data_circle_options != "undefined") {
 			 svg.selectAll("circle")
-				.data(data) //use the data to draw the circles...
+				.data(data) 
 	         	.each(projection_transform)
 				  .enter().append("svg:circle")
 					.attr("class", data_circle_options.circle_class) //set their class to the data circles class
@@ -433,10 +424,9 @@ window.onload = init;
 
 
 		<div id="legendsvg"></div>
-		<hr>
-		Year of Production: <select id="textFilterSelector"></select>
+	<select id="textFilterSelector"></select>
 
-		<br>
+
 
 </body>
 </html> 
