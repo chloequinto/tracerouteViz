@@ -16,7 +16,18 @@ body{
     position: absolute; 
     top: 10px; 
     left: 10px; 
-    bottom: 10px; 
+    bottom: 375px; 
+    width: 249px; 
+    padding: 10px; 
+    background-color: #F5DEB3; 
+    box-shadow: 10px 5px; 
+}
+
+#selections {
+    position: absolute; 
+    top: 420px; 
+    bottom: 100px; 
+    left: 10px;
     width: 249px; 
     padding: 10px; 
     background-color: #F5DEB3; 
@@ -24,13 +35,37 @@ body{
 }
 
 #title{ 
-    font-size: 24pt; 
+    font-size: 28pt; 
     font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
     color: black; 
+    padding-bottom: 10px; 
+    text-align: center;
+}
+
+#select_title{ 
+    font-size: 12pt; 
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+    color: black; 
+    padding-top: 10px; 
+    padding-left: 10px; 
+    text-align: left;
 }
 
 #author{ 
     font-size: 20pt; 
     font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
     color: black;
+    text-align: center;
+}
+
+#texts{ 
+    font-size: 10pt; 
+    font-family: Arial, Helvetica, sans-serif; 
+    padding-top: 10px;
+    padding-bottom: 10px; 
+    text-align: center;
+}
+
+#destination{ 
+    padding: 10px;
 }
