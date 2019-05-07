@@ -3,8 +3,8 @@
 ![](https://img.shields.io/badge/Release-V1.1-blue.svg) <br>
 
 ## Authors 
-[Amanda Ly](https://github.com/amandal3)
-[Chloe Quinto](https://github.com/chloequinto)  
+[Amanda Ly](https://github.com/amandal3) <br>
+[Chloe Quinto](https://github.com/chloequinto)  <br>
 
 ## Description 
 Traceroute is a utility that records the route (specific gateway computers at each hop) through the internet between your cmoputer and a specified destination computer. <br>
