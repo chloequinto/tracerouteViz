@@ -9,23 +9,23 @@
 <script src="http://vizsociety.net/shared/d3/d3-legend.min.js"></script><!--took from HST class-->
 <script src="http://vizsociety.net/shared/js/jquery-1.10.2.js"></script><!--took from HST class-->
 <script src="https://maps.google.com/maps/api/js?key=AIzaSyAAgQB9UpJXqvdYfHAiyW6nfz94FVSP5tQ"></script>
+<script src="misc.js"></script>
 <script>
 var width = 960; 
     height = window.innerHeight; 
 
 var data_source = {
-    csv: "traceRoute.csv",
+    csv: "traceroute_test.csv",
     latLon: function(d){ 
-        return [parseFloat(d["Lat"]), parseFloat(d['Lon'])]
+        return [parseFloat(d["Lat"]), parseFloat(d['Long'])]
     }
     
 }
+var debug = true;
 
 var gmap_options = {
-    //	  zoom: 2, 
-      zoom: 10, 
-	 // center: new google.maps.LatLng(33.2724108,-42.1839941), 
-      center: new google.maps.LatLng(40.7,-73.99),
+		zoom: 2, 
+	 center: new google.maps.LatLng(33.2724108,-42.1839941), 
 	  mapTypeId: google.maps.MapTypeId.TERRAIN, 
 		styles: [
 			{elementType: 'geometry', stylers: [{color: '#242f3e'}]},
@@ -110,23 +110,18 @@ var gmap_options = {
 }
 
 
-/* data circles -- maps data onto circles */
-/* requires all data to have lat/lon coordinates, can also map radii and color to data */
 var data_circle_options = {
-	circle_class: "dot", //class assigned to all data circles
-	circle_id_prefix: "c_", //every data object will get a unique id, this is the prefix for it (e.g. c_1, c_2)
-	selectorId: "radiusSelect", //id of the SELECT tag to change the radius (if there is one)
-	//this is an array-of-arrays, with each "line" below consisting of a label and the value for the circle radius for if that line is chosen.
-	//if the value is a function, the function will be passed the data row, and its results will be used to set the value of the radius.
+	circle_class: "dot", 
+	circle_id_prefix: "c_", 
+	selectorId: "radiusSelect", 
 	selector_options: [
-		["Normal Size", function(d) { return (+d["Packet Hop"]);}],
-		["Fixed: 1", 1 ],
-		["Fixed: 2", 2 ],
-		["Fixed: 5", 5 ],
-		["Fixed: 10", 10 ],
+		["Normal Size", function(d) { return (+d["rating"]);}],
+		["Very Small", 2 ],
+		["Small", 5 ],
+		["Medium", 10 ],
+		["Large", 15 ],
 	],
-	selector_selected: 0, //which radius is selected (serves as default)
-	//sets the color of the fill. here, we have it set to a specific field (which requires the settings below it), but if we made it just "return 'blue';" it would make it just blue, for example.
+	selector_selected: 3, 
 	fill_color: function(d) {
 		return this.color_scale(d[this.color_field]);
 	},
@@ -143,8 +138,6 @@ var data_circle_options = {
 				.range(["orange", "green"]); //you could change these colors or add more
 		return this.scale_function(d);
 	},
-	//this creates a legend based on the color scales above -- you don't want a legend, just delete it!
-	//how to use: http://d3-legend-v3.susielu.com/
 	color_legend: function() {
 		d3.select("#legend").call(
 			d3.legend.color()
@@ -156,7 +149,7 @@ var data_circle_options = {
 	},
 	//this is text for the caption when data is highlighted or selected
 	caption: function(d) {
-		return "<b><big>"+d["movie_title"] + "</big></b><br>"
+		return "<b><big>"+d["origin"] + "</big></b><br>"
 			+ "Director: "+d["person"]+"<br>"
 			+ "Year: "+d["year"]+"<br>"
 			+ "Media: "+d["media"]+"<br>"
@@ -210,8 +203,8 @@ var text_filter_options = {
 /* creates a little SELECT element that lists all of the data and highlights any given one if you select it*/
 var data_finder = {
 	selectorId: "dataLocator", //the id of the SELECT tag to use for this
-	selector_default_caption: "Find a destination", //the "default" data caption
-	sort_field: "movie_title", //if you need to sort the data, it sorts it by this field
+	selector_default_caption: "Find a destination...", //the "default" data caption
+	sort_field: "Destination", //if you need to sort the data, it sorts it by this field
 	sort_desc: false, //if this is true, it will sort descending
 	selector_data_caption: function(d) { //this is the caption that will populate the SELECT options
 		return d["Destination"];
@@ -254,7 +247,7 @@ function init() {
 			opt.text = data_circle_options.selector_options[i][0];
 			opt.value = i;
 			if(i==data_circle_options.selector_selected) opt.selected = true;
-			//sel.add(opt);
+			sel.add(opt);
 		}
 		sel.onchange = function() { changeradius(document.getElementById(data_circle_options.selectorId).value) };
 	}
@@ -268,7 +261,7 @@ function init() {
 					opt.text = text_filter_options.selector_options[i][0];
 					opt.value = i;
 					if(i==text_filter_options.selector_selected) opt.selected = true;
-					//sel.add(opt);
+					sel.add(opt);
 				}
 				sel.onchange = function() { textFilter(document.getElementById(text_filter_options.selectorId).value) };
 			} else {
@@ -397,7 +390,7 @@ function showdata(data) {
 					var opt = document.createElement("option");
 					opt.text = data_finder.selector_data_caption(d);
 					opt.value = d.id;
-					//sel.add(opt);
+					sel.add(opt);
 				}
 			}
 			sel.onchange = function() { data_finder.selector_select(document.getElementById(data_finder.selectorId).value) };
@@ -407,33 +400,43 @@ function showdata(data) {
 //make init() run on loading the window
 window.onload = init;
 </script> 
-<body> 
-<div id="map"></div>
-<div id="NavPane">
-    <div id="title"> 
-        CPE 490: Traceroute Visualization
-    </div>
-    <div id="author"> 
-        Amanda Ly & Chloe Quinto 
-    </div>
-    <div id="texts"> 
-            Traceroute is a utility that records the route through the 
-            internet between your computer and a specified destination computer. 
-            <br>
-            <br>
-            This project allows users to visualize the path taken all over the globe.
-    </div>
-</div>
-<div id="selections">
+
+<body>
+	<div id="map"></div>
+	<div id="NavPane"> 
+		<div id="title"> 
+			CPE 490: Traceroute Visualization
+		</div>
+		<div id="author"> 
+			Amanda Ly & Chloe Quinto 
+		</div>
+		<div id="paragraphs"> 
+			Traceroute is a utility that records the route through the 
+			internet between your computer and a specified destination computer. 
+			<br>
+			<br>
+			This project allows users to visualize the path taken all over the globe.
+		</div>
+	</div>
+
+	<div id="selections">
     <div id="select_title"> 
-        Find a destination
-        
-    </div>
-    <div id="destination"> 
-        <select id="findIP"></select>
-    </div> 
-    
-</div>
+			Analyze Packets
+			<select id="dataLocator"></select>
+			Change Size of Dots 
+			<select id="radiusSelect"></select>
+		</div>
+
+	</div>
+
+		<select id="dataLocator"></select>
+
+
+		<div id="legendsvg"></div>
+		<hr>
+		Year of Production: <select id="textFilterSelector"></select>
+
+		<br>
 
 </body>
 </html> 
