@@ -120,7 +120,7 @@ var data_circle_options = {
 		["Medium", 10 ],
 		["Large", 15 ],
 	],
-	selector_selected: 3, 
+	selector_selected: 2, 
 	fill_color: function(d) {
 		return this.color_scale(d[this.color_field]);
 	},
@@ -129,93 +129,58 @@ var data_circle_options = {
 	scale_function: d3.scale.linear(),
 	color_scale: function(d) {
 		data_circle_options.scale_function.domain([
-					d3.min(data_source.data.map(function(d) { return +d[data_circle_options.color_field]; })), //minimum for field
-					d3.max(data_source.data.map(function(d) { return +d[data_circle_options.color_field]; })) //maximum for field
+					d3.min(data_source.data.map(function(d) { return +d[data_circle_options.color_field]; })), 
+					d3.max(data_source.data.map(function(d) { return +d[data_circle_options.color_field]; })) 
 				])
 				.range(["orange", "green"]); 
 		return this.scale_function(d);
 	},
-	color_legend: function() {
-		d3.select("#legend").call(
-			d3.legend.color()
-			  .cells(10)
-			  .shapeWidth(23)
-			  .orient("horizontal")
-			  .scale(this.scale_function)
-		);
-	},
 
 	caption: function(d) {
-		return "<b><big>"+d["origin"] + "</big></b><br>"
-			+ "Director: "+d["person"]+"<br>"
-			+ "Year: "+d["year"]+"<br>"
-			+ "Media: "+d["media"]+"<br>"
-			+ "Neighborhood: " +d["neighborhood"] + "<br>"
-			+ "Page: " +d["page"]+"<br>"
-			+ "Ratings: " +d["rating"]+"<br>"
+		return "<b><big>"+d["Destination"] + "</big></b><br>"
+			+ "Director: "+d["movie_title"]+"<br>"
 			;
 	},
-	//misc settings:
-	radius_add: 0, //a raw radius addition that is added to any radius calculation
-	radius_min: 2, //minimum radius
-	autosort: true, //automatically sort circles by radius so small ones are on top
+
+	radius_add: 0, 
+	radius_min: 2, 
+	autosort: true, 
 }
-// text field filters -- allows you to filter data based on a field full of text.
-// if used, it will search for a given piece of text in a given field. if the text is present, it will assign the class "data_has_text", if it doesn't, it will assign the class "data_lacks_text".
-// if you don't want to use this, just delete it -- it should be fine
+
 var text_filter_options = {
-	filter_field: "year", //the name of the field in the data
-	filter_class: "dot", //the base class of the d3 data object being filtered
-	//this is an array-of-arrays, with each "line" below consisting of a label and the text to search for if that line is chosen.
-	//if the text to search for is the number 0, it will not search for any text (that is the 'default' state).
-	//if the text to search for is a function, it will instead pass the data text to the function -- this is a way to
-	//  override the default activity, as illustrated below.
-	selectorId: "textFilterSelector", //the id of the SELECT tag to make a selector out of
+	filter_field: "packet_hop", 
+	filter_class: "dot", 
+	selectorId: "textFilterSelector", 
 	selector_options: [
-			/*["Anytime",0], */
 			["All", 0],
-			[1950, "1950"],
-			[1960, "1960"],
-			[1970, "1970"],
-			[1980, "1980"],
-			[1990, "1990"],
-			[2000, "2000"],
-			[2001, "2001"],
-			[2002, "2002"],
-			[2003, "2003"],
-			[2004, "2004"],
-			[2005, "2005"],
-			[2006, "2006"],
-			[2007, "2007"],
-			[2008, "2008"],
+			[1, "1"],
+			[2, "2"],
+			[3, "3"],
+
 		],
-	selector_selected: 0, //default selector option -- 0 is the first, 1 is the second, etc.
-	//a function that will be run on every line of the filter field before the comparison is made
-	//in this example, it converts it to lower case so that the comparison is case-insensitive
+	selector_selected: 1, 
 	before_comparing: function(text) { return text.toLowerCase(); },
-	//class names added if the data has the text or if it doesn't
-	text_found_class: "data_visible", //in this case, I want to hide the data if the text is found -- this might not be what you want! consider the logic of it!!!
-	text_lacks_class: "data_hidden",   //in this case, I want to do nothing if it isn't
+	text_found_class: "data_visible", 
+	text_lacks_class: "data_hidden",   
 }
-/* creates a little SELECT element that lists all of the data and highlights any given one if you select it*/
+
 var data_finder = {
-	selectorId: "dataLocator", //the id of the SELECT tag to use for this
-	selector_default_caption: "Find a destination...", //the "default" data caption
-	sort_field: "Destination", //if you need to sort the data, it sorts it by this field
-	sort_desc: false, //if this is true, it will sort descending
-	selector_data_caption: function(d) { //this is the caption that will populate the SELECT options
+	selectorId: "dataLocator", 
+	selector_default_caption: "Find a destination...", 
+	sort_field: "Destination",
+	sort_desc: false,
+	selector_data_caption: function(d) { 
 		return d["Destination"];
 	},
-	//lastly, this is the code that is run whenever a given piece of data is selected
-	//in the example below, it just adds the "selected" class to any data that is selected, and gives it info in the tooltip
+
 	selector_select: function(id) {
-		svg.selectAll("."+data_circle_options.circle_class) //unselect all
+		svg.selectAll("."+data_circle_options.circle_class)
 			.classed("selected",false);
-		if(id) { //select the id
+		if(id) { 
 			svg.select("#"+data_circle_options.circle_id_prefix+(id))
 				.classed("selected",true);
 			for(var i in data_source.data) {
-				if(data_source.data[i].id==id) { //shows the caption of the datapoint selected (it has to search for it, because the data might be sorted)
+				if(data_source.data[i].id==id) { 
 					tooltip.html(data_circle_options.caption(data_source.data[i]));
 					break;
 				}
@@ -268,19 +233,19 @@ function init() {
 	if(debug) console.log("Trying to load data from "+data_source.csv);
 	d3.csv(data_source.csv, function(datarows) {
 		if(datarows == null) alert("Could not load the file "+data_source.csv+" - check that the file path and permissions are valid");
-		var i = 0; //just a blank index to iterate
-		data_source.data = []; //a variable within our datasource to hold our data
-		datarows.forEach(function(d) { //for each data row in the CSV file
-			d.id = parseInt(i); //keep track of what row number it is
+		var i = 0; 
+		data_source.data = []; 
+		datarows.forEach(function(d) { 
+			d.id = parseInt(i); 
 			if(debug) console.log("Parsing item "+i);
-			//run any preprocess functions
+	
 			if(typeof data_source.preprocess == "function") {
 				d = data_source.preprocess(d);
 			}
-			data_source.data.push(d);  //add the data object to a our data array
-			i++; //increase the row number counter
+			data_source.data.push(d);  
+			i++; 
 		});
-		showdata(data_source.data); //all data is now loaded, so show it
+		showdata(data_source.data); 
 	});
 }
 
@@ -349,10 +314,10 @@ function showdata(data) {
 						map.setZoom(15); //zoom in on it
 					})
 								;
-			changeradius(); //now we run the function that will update the radius
-			changecolor(); //now we run the function that will change the color
+			changeradius(); 
+			changecolor(); 
 		}
-		//add the manual captions, if there are any
+		
 		if(typeof text_captions != "undefined") {
 			if(typeof text_captions.manual_captions != "undefined") {
 				for(var i in text_captions.manual_captions) {
@@ -360,7 +325,7 @@ function showdata(data) {
 				}
 			}
 		}
-		//create the finder bar
+
 		if(typeof data_finder != "undefined") {
 			var sel = document.getElementById(data_finder.selectorId);
 			var opt = document.createElement("option");
@@ -370,10 +335,10 @@ function showdata(data) {
 			sel.add(opt);
 			var data_copy = data_source.data;
 			if(data_finder.sort_field) {
-				data_copy.sort(function(a, b) { //this is a custom sort function that just sorts by a given field
+				data_copy.sort(function(a, b) { 
 					return sort_it(a[data_finder.sort_field],b[data_finder.sort_field]);
 				});
-				if(data_finder.sort_desc) data_copy.reverse(); //reverse the data if desired
+				if(data_finder.sort_desc) data_copy.reverse(); 
 			}
 			for(var i in data_copy) {
 				var d = data_copy[i];
@@ -388,7 +353,7 @@ function showdata(data) {
 		}
 	}
 }
-//make init() run on loading the window
+
 window.onload = init;
 </script> 
 
@@ -416,15 +381,18 @@ window.onload = init;
 			<select id="dataLocator"></select>
 			Change Size of Dots 
 			<select id="radiusSelect"></select>
+			<br>
+			Choose a Path <br> 
+			<select id="textFilterSelector"></select>
 		</div>
 
 	</div>
 
-		<select id="dataLocator"></select>
+		
 
 
-		<div id="legendsvg"></div>
-	<select id="textFilterSelector"></select>
+		
+
 
 
 

@@ -2,7 +2,7 @@
     position: absolute; 
     top: 10px; 
     left: 10px; 
-    bottom: 375px; 
+    bottom: 440px; 
     width: 249px; 
     padding: 10px; 
     background-color: #F5DEB3; 
@@ -11,7 +11,7 @@
 
 #selections {
     position: absolute; 
-    top: 420px; 
+    top: 450px; 
     bottom: 100px; 
     left: 10px;
     width: 249px; 
@@ -81,11 +81,11 @@ body {
 	pointer-events: none;
 }
 
-#legendsvg {
+/* #legendsvg {
 	height: 35px;
 	width: 250px;
 	overflow: hidden;
-}
+} */
 
 
 hr {
