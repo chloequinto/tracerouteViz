@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html> 
+<head> 
+<title>Traceroute Visualization</title>
+<meta charset="utf-8">
+<link rel="stylesheet" type="text/css" href="style.css"></link>
+</head>
+<script src="http://vizsociety.net/shared/d3/d3.v3.min.js"></script><!--took from HST class-->
+<script src="http://vizsociety.net/shared/d3/d3-legend.min.js"></script><!--took from HST class-->
+<script src="http://vizsociety.net/shared/js/jquery-1.10.2.js"></script><!--took from HST class-->
+<script src="https://maps.google.com/maps/api/js?key=AIzaSyAAgQB9UpJXqvdYfHAiyW6nfz94FVSP5tQ"></script>
+<script>
+var width = 960; 
+    height = window.innerHeight; 
+
+var data_source = {
+    csv: "traceRoute.csv",
+    latLon: function(d){ 
+        return [parseFloat(d["Lat"]), parseFloat(d['Lon'])]
+    }
+}
+
+var gmap_options = {
+	  zoom: 4, 
+	  center: new google.maps.LatLng(38.9168198,-107.9232542), //default map center lat/lon
+	  mapTypeId: google.maps.MapTypeId.TERRAIN, //options are ROADMAP, SATELLITE, HYBRID, or TERRAIN
+		styles: [
+			{elementType: 'geometry', stylers: [{color: '#242f3e'}]},
+			{elementType: 'labels.text.stroke', stylers: [{color: '#242f3e'}]},
+			{elementType: 'labels.text.fill', stylers: [{color: '#746855'}]},
+			{
+				featureType: 'administrative.locality',
+				elementType: 'labels.text.fill',
+				stylers: [{color: '#d59563'}]
+			},
+			{
+				featureType: 'poi',
+				elementType: 'labels.text.fill',
+				stylers: [{color: '#d59563'}]
+			},
+			{
+				featureType: 'poi.park',
+				elementType: 'geometry',
+				stylers: [{color: '#263c3f'}]
+			},
+			{
+				featureType: 'poi.park',
+				elementType: 'labels.text.fill',
+				stylers: [{color: '#6b9a76'}]
+			},
+			{
+				featureType: 'road',
+				elementType: 'geometry',
+				stylers: [{color: '#38414e'}]
+			},
+			{
+				featureType: 'road',
+				elementType: 'geometry.stroke',
+				stylers: [{color: '#212a37'}]
+			},
+			{
+				featureType: 'road',
+				elementType: 'labels.text.fill',
+				stylers: [{color: '#9ca5b3'}]
+			},
+			{
+				featureType: 'road.highway',
+				elementType: 'geometry',
+				stylers: [{color: '#746855'}]
+			},
+			{
+				featureType: 'road.highway',
+				elementType: 'geometry.stroke',
+				stylers: [{color: '#1f2835'}]
+			},
+			{
+				featureType: 'road.highway',
+				elementType: 'labels.text.fill',
+				stylers: [{color: '#f3d19c'}]
+			},
+			{
+				featureType: 'transit',
+				elementType: 'geometry',
+				stylers: [{color: '#2f3948'}]
+			},
+			{
+				featureType: 'transit.station',
+				elementType: 'labels.text.fill',
+				stylers: [{color: '#d59563'}]
+			},
+			{
+				featureType: 'water',
+				elementType: 'geometry',
+				stylers: [{color: '#17263c'}]
+			},
+			{
+				featureType: 'water',
+				elementType: 'labels.text.fill',
+				stylers: [{color: '#515c6d'}]
+			},
+			{
+				featureType: 'water',
+				elementType: 'labels.text.stroke',
+				stylers: [{color: '#17263c'}]
+			}
+		]
+}
+
+var svg, stage, captions, projection, path, circles, tooltip, landforms, centered;
+var map, overlay,bounds,padding,sw,ne;
+
+
+function init() {
+	map = new google.maps.Map(d3.select("#map").node(), gmap_options);
+	tooltip = d3.select("#texts")
+				.append("div")
+				.attr("id","tooltip")
+				.text("");
+}
+window.onload = init;
+</script> 
+<body> 
+<div id="map"></div>
+<div id="NavPane">
+    <div id="title"> 
+        CPE 490: Traceroute Visualization
+    </div>
+    <div id="author"> 
+        Amanda Ly & Chloe Quinto 
+    </div>
+</div>
+</body>
+</html> 
