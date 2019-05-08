@@ -139,10 +139,10 @@ var data_circle_options = {
 	caption: 		
 		function(d) {
 			return "<b>"+d["Destination"] + "</b><br>"
-					+d["ip_address"]+"<br>"
-					+"Location: " +d["location"]+ "<br>"
-					+"IP Address: " +d["ip_address"]+ "<br>"
-					+"Path: " +d["flow"]+ "<br>"
+					+"<b> IP Address: </b> " + d["ip_address"]+"<br>"
+					+"<b>Location:</b> " +d["location"]+ "<br>"
+					+"<b>Packet Hop:</b> " +d["packet_hop"]+ "<br>"
+					+"<b>Path:</b> " +d["flow"]+ "<br>"
 			},
 
 	radius_add: 0, 
