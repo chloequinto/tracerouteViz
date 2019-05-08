@@ -11,4 +11,4 @@ Traceroute is a utility that records the route (specific gateway computers at ea
 
 While it's interesting to see how many hops a packet takes and its location, it is difficult to see, in a visual sense, where the packets are hopping. <br>
 
-This purpose of this project is to generate a nice visualization of how indirect packet routes can. This visualization will then be further analyzed in terms of packet locations and RTT.  <br>
+The purpose of this project is to generate a nice visualization of how indirect packet routes can. This visualization will then be further analyzed in terms of packet locations and RTT.  <br>
