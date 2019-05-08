@@ -1,8 +1,8 @@
 #NavPane{ 
     position: absolute; 
-    top: 10px; 
+    top: 60px; 
     left: 10px; 
-    bottom: 440px; 
+    bottom: 400px; 
     width: 249px; 
     padding: 10px; 
     background-color: #F5DEB3; 
@@ -69,23 +69,18 @@ body {
 
 
 .data_visible {
-	opacity: .5;
+	opacity: 10;
 }
 
 
 .data_hidden {
-	display: block;
+	display: none;
 }
 
 #overlay {
 	pointer-events: none;
 }
 
-/* #legendsvg {
-	height: 35px;
-	width: 250px;
-	overflow: hidden;
-} */
 
 
 hr {

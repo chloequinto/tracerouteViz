@@ -8,7 +8,7 @@
 <script src="http://vizsociety.net/shared/d3/d3.v3.min.js"></script><!--took from HST class-->
 <script src="http://vizsociety.net/shared/d3/d3-legend.min.js"></script><!--took from HST class-->
 <script src="http://vizsociety.net/shared/js/jquery-1.10.2.js"></script><!--took from HST class-->
-<script src="https://maps.google.com/maps/api/js?key=AIzaSyAAgQB9UpJXqvdYfHAiyW6nfz94FVSP5tQ"></script>
+<script src="https://maps.google.com/maps/api/js?key=AIzaSyAAgQB9UpJXqvdYfHAiyW6nfz94FVSP5tQ"></script> <!--Do not exceed 5000-->
 <script src="misc.js"></script>
 <script>
 var width = 960; 
@@ -132,13 +132,13 @@ var data_circle_options = {
 					d3.min(data_source.data.map(function(d) { return +d[data_circle_options.color_field]; })), 
 					d3.max(data_source.data.map(function(d) { return +d[data_circle_options.color_field]; })) 
 				])
-				.range(["orange", "green"]); 
+				.range(["red", "orange", "yellow", "green"]); 
 		return this.scale_function(d);
 	},
 
 	caption: function(d) {
 		return "<b><big>"+d["Destination"] + "</big></b><br>"
-			+ "Director: "+d["movie_title"]+"<br>"
+			+ "Director: "+d["origin_ip"]+"<br>"
 			;
 	},
 
@@ -148,21 +148,33 @@ var data_circle_options = {
 }
 
 var text_filter_options = {
-	filter_field: "packet_hop", 
+	filter_field: "Destination",
 	filter_class: "dot", 
 	selectorId: "textFilterSelector", 
 	selector_options: [
 			["All", 0],
-			[1, "1"],
-			[2, "2"],
-			[3, "3"],
+			["euractive.com", "euractive.com"],
+			["makemytrip.com", "makemytrip.com"],
+			["politico.eu", "politico.eu"],
+			["epu.edu.krd", "epu.edu.krd"],
+			["euractive.com", "euractive.com"],
+			["ign.es", "ign.es"],
+			["nbg.gr", "nbg.gr"],
+			["epu.edu.krd", "epu.edu.krd"],
+			["2nn.jp", "2nn.jp"],
+			["euobserver.com", "euobserver.com"],
+			["optera.ccs.yorku.ca", "optera.ccs.yorku.ca"],
+
+
 
 		],
-	selector_selected: 1, 
+	selector_selected: 0,
 	before_comparing: function(text) { return text.toLowerCase(); },
 	text_found_class: "data_visible", 
 	text_lacks_class: "data_hidden",   
 }
+
+
 
 var data_finder = {
 	selectorId: "dataLocator", 
@@ -377,13 +389,14 @@ window.onload = init;
 
 	<div id="selections">
     <div id="select_title"> 
+			Choose a Path 
+			<select id="textFilterSelector"></select> 
+			<br>
 			Analyze Packets
-			<select id="dataLocator"></select>
+			<select id="dataLocator"></select> 
+			<br> 
 			Change Size of Dots 
 			<select id="radiusSelect"></select>
-			<br>
-			Choose a Path <br> 
-			<select id="textFilterSelector"></select>
 		</div>
 
 	</div>
