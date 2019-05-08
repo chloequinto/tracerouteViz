@@ -155,7 +155,7 @@ var text_filter_options = {
 	filter_class: "dot", 
 	selectorId: "textFilterSelector", 
 	selector_options: [
-			["All", 0],
+			["Choose Path", 0],
 			["euractive.com", "euractive.com"],
 			["makemytrip.com", "makemytrip.com"],
 			["politico.eu", "politico.eu"],
@@ -204,7 +204,7 @@ var text_filter_options = {
 
 var data_finder = {
 	selectorId: "dataLocator", 
-	selector_default_caption: "Find a destination...", 
+	selector_default_caption: "Check IP Addresses...", 
 	sort_field: "ip_address",
 	sort_desc: false,
 	selector_data_caption: function(d) { 
@@ -416,14 +416,14 @@ window.onload = init;
 
 	<div id="selections">
     <div id="select_title"> 
-			Choose a Path 
+			<p>Analyze the Packets<br> Hover over dots</p> 
 			<select id="textFilterSelector"></select> 
 			<br>
-			Analyze Packets
+			<!-- Analyze Packets -->
 			<select id="dataLocator"></select> 
 			<br> 
-			Change Size of Dots 
-			<select id="radiusSelect"></select>
+			<!-- Change Size of Dots  -->
+			<select id="radiusSelect"></select> 
 		</div>
 		
 	</div>
