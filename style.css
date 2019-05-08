@@ -6,7 +6,8 @@
     width: 249px; 
     padding: 10px; 
     background-color: #F5DEB3; 
-    box-shadow: 10px 5px; 
+	box-shadow: 10px 5px; 
+	border-radius: 25px;
 }
 
 #selections {
@@ -17,7 +18,8 @@
     width: 249px; 
     padding: 10px; 
     background-color: #F5DEB3; 
-    box-shadow: 10px 5px; 
+	box-shadow: 10px 5px; 
+	border-radius: 25px;
 }
 
 #texts {
@@ -30,6 +32,7 @@
 	text-align: center;
 	background-color: #fcf5e9;
 	font-family: Arial, Helvetica, sans-serif; 
+	border-radius: 25px;
 
 }
 

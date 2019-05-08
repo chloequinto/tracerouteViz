@@ -142,7 +142,7 @@ var data_circle_options = {
 					+d["ip_address"]+"<br>"
 					+"Location: " +d["location"]+ "<br>"
 					+"IP Address: " +d["ip_address"]+ "<br>"
-					+"Packet Hop: " +d["packet_hop"]+ "<br>"
+					+"Flow: " +d["flow"]+ "<br>"
 			},
 
 	radius_add: 0, 
@@ -205,10 +205,10 @@ var text_filter_options = {
 var data_finder = {
 	selectorId: "dataLocator", 
 	selector_default_caption: "Find a destination...", 
-	sort_field: "Destination",
+	sort_field: "ip_address",
 	sort_desc: false,
 	selector_data_caption: function(d) { 
-		return d["Destination"];
+		return d["ip_address"];
 	},
 
 	selector_select: function(id) {
