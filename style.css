@@ -1,6 +1,6 @@
 #NavPane{ 
     position: absolute; 
-    top: 60px; 
+    top: 70px; 
     left: 10px; 
     bottom: 400px; 
     width: 249px; 
@@ -18,6 +18,19 @@
     padding: 10px; 
     background-color: #F5DEB3; 
     box-shadow: 10px 5px; 
+}
+
+#texts {
+	position: absolute;
+	width: 245px;
+	top: 600px;
+	left: 22px;
+    bottom: 115px;
+	font-size: 6pt;
+	text-align: center;
+	background-color: #fcf5e9;
+	font-family: Arial, Helvetica, sans-serif; 
+
 }
 
 #title{ 
@@ -89,35 +102,7 @@ hr {
 }
 
 
-#texts {
-	position: absolute;
-	right: 0px;
-	width: 249px;
-    top: 0px;
-    bottom: 0px;
-	padding: 10px;
-	font-size: 12pt;
-	background-color: gray;
-	border-left: 1px solid white;
-	color: white;
-	font-family: sans-serif;
 
-}
-
-#title_segundo {
-	font-size: 40pt;
-	font-family: sans-serif;
-	color: white;
-}
-
-#author_segundo {
-	font-size: 10pt;
-	font-style: italic;
-	letter-spacing: 1px;
-	font-family: sans-serif;
-	color: white;
-
-}
 
 #legend .label {
     font-size: 10pt;
@@ -136,7 +121,7 @@ path,circle {
 }
 .label {
 	opacity: .4;
-	font-size: 14pt;
+	font-size: 10pt;
 	pointer-events: none; 
 }
 .label_point {

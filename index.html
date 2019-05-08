@@ -132,15 +132,18 @@ var data_circle_options = {
 					d3.min(data_source.data.map(function(d) { return +d[data_circle_options.color_field]; })), 
 					d3.max(data_source.data.map(function(d) { return +d[data_circle_options.color_field]; })) 
 				])
-				.range(["red", "orange", "yellow", "green"]); 
+				.range(["red", "orange"]); 
 		return this.scale_function(d);
 	},
 
-	caption: function(d) {
-		return "<b><big>"+d["Destination"] + "</big></b><br>"
-			+ "Director: "+d["origin_ip"]+"<br>"
-			;
-	},
+	caption: 		
+		function(d) {
+			return "<b>"+d["Destination"] + "</b><br>"
+					+d["ip_address"]+"<br>"
+					+"Location: " +d["location"]+ "<br>"
+					+"IP Address: " +d["ip_address"]+ "<br>"
+					+"Packet Hop: " +d["packet_hop"]+ "<br>"
+			},
 
 	radius_add: 0, 
 	radius_min: 2, 
@@ -338,6 +341,7 @@ function showdata(data) {
 					.on("mouseover", function(d) {  //what to do when the mouse goes over
 						d3.select(this).classed("highlight",true); //turn on highlight class
 						tooltip.html(data_circle_options.caption(d));
+						console.log(data_circle_options.caption(d));
 						})
 					.on("mouseout",  function(d) { //what to do when the mouse is no longer over it
 						d3.select(this).classed("highlight",false); //turn it off
@@ -420,16 +424,8 @@ window.onload = init;
 			Change Size of Dots 
 			<select id="radiusSelect"></select>
 		</div>
-
+		
 	</div>
-
-		
-
-
-		
-
-
-
-
+	<div id="texts"></div>
 </body>
 </html> 

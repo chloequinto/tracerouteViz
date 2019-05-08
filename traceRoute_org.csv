@@ -1,4 +1,4 @@
-Packet Hop,origin_ip,Destination,IP Address,Lat,Long,Location,rating
+packet_hop,origin_ip,Destination,ip_address,Lat,Long,location,rating
 12,192.168.1.2,sub.jp,163.139.128.162,35.1793,130.899,"Nagoya, Japan",10
 5,192.168.1.2,2nn.jp,111.87.3.125,35.6838,130.2073,"Tokyo, Japan",10
 5,192.168.1.2,kabu.co.jp,58.138.104.186,35.6838,130.2073,"Tokyo, Japan",10
