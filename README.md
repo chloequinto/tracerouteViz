@@ -20,3 +20,7 @@ Traceroute is a utility that records the route (specific gateway computers at ea
 [Amanda Ly](https://github.com/amandal3) <br>
 [Chloe Quinto](https://github.com/chloequinto)  <br>
 
+<<<<<<< HEAD
+=======
+
+>>>>>>> 9a3474ef491ead82666509cf3bc24ffe39aee6cc
